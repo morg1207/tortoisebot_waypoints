@@ -37,8 +37,12 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 add_executable(tortoisebot_action_server_node src/tortoisebot_action_server.cpp)
 ament_target_dependencies(tortoisebot_action_server_node rclcpp rclcpp_action geometry_msgs nav_msgs tortoisebot_waypoints tf2)
 
+add_executable(tortoisebot_action_client_node src/tortoisebot_action_client.cpp)
+ament_target_dependencies(tortoisebot_action_client_node rclcpp rclcpp_action geometry_msgs tortoisebot_waypoints)
+
 install(TARGETS
    tortoisebot_action_server_node
+   tortoisebot_action_client_node
    DESTINATION lib/${PROJECT_NAME}
  )
 
