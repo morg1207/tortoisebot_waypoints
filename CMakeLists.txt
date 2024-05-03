@@ -7,7 +7,13 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(tortoisebot_waypoints REQUIRED)
+find_package(rclcpp_action REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(tf2 REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -25,7 +31,24 @@ endif()
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/WaypointAction.action"
+  DEPENDENCIES geometry_msgs 
 )
 
+add_executable(tortoisebot_action_server_node src/tortoisebot_action_server.cpp)
+ament_target_dependencies(tortoisebot_action_server_node rclcpp rclcpp_action geometry_msgs nav_msgs tortoisebot_waypoints tf2)
+
+install(TARGETS
+   tortoisebot_action_server_node
+   DESTINATION lib/${PROJECT_NAME}
+ )
+
+#rosidl_target_interfaces(tortoisebot_action_server_node
+#  ${PROJECT_NAME} "rosidl_typesupport_cpp")
+
+# Install launch files.
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
+)
 
 ament_package()
