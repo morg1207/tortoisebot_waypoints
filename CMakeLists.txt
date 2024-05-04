@@ -14,20 +14,23 @@ find_package(geometry_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(tf2 REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # uncomment the line when a copyright and license is not present in all source files
-  #set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # uncomment the line when this package is not in a git repo
-  #set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-endif()
+
+## ADD LIBRARY
+include_directories(include/tortoisebot_waypoints)
+set(HEADER_FILES include/tortoisebot_waypoints/tortoisebot_waypoint.hpp )
+add_library(tortoisebot_action_lib src/tortoisebot_waypoint.cpp ${HEADER_FILES}) 
+
+ament_target_dependencies(tortoisebot_action_lib rclcpp rclcpp_action geometry_msgs nav_msgs tortoisebot_waypoints tf2)
+
+# this line to export the targets. In your case, it is a library
+ament_export_targets(tortoisebot_action_lib HAS_LIBRARY_TARGET)
+
+
+install(
+  DIRECTORY include/tortoisebot_waypoints
+  DESTINATION include
+)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/WaypointAction.action"
@@ -40,11 +43,33 @@ ament_target_dependencies(tortoisebot_action_server_node rclcpp rclcpp_action ge
 add_executable(tortoisebot_action_client_node src/tortoisebot_action_client.cpp)
 ament_target_dependencies(tortoisebot_action_client_node rclcpp rclcpp_action geometry_msgs tortoisebot_waypoints)
 
+
+
+
+## ADD EXECUTABLE
+add_executable(main src/main.cpp)
+target_link_libraries(main PUBLIC tortoisebot_action_lib)
+
+install(TARGETS tortoisebot_action_lib
+  DESTINATION lib/tortoisebot_action_lib)
+
 install(TARGETS
+   main
    tortoisebot_action_server_node
    tortoisebot_action_client_node
    DESTINATION lib/${PROJECT_NAME}
  )
+
+
+install(
+  TARGETS tortoisebot_action_lib
+  EXPORT tortoisebot_action_lib
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+  INCLUDES DESTINATION include
+)
+
 
 #rosidl_target_interfaces(tortoisebot_action_server_node
 #  ${PROJECT_NAME} "rosidl_typesupport_cpp")
@@ -54,5 +79,26 @@ install(DIRECTORY
   launch
   DESTINATION share/${PROJECT_NAME}/
 )
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  find_package(ament_cmake_gtest REQUIRED)
+
+  
+  set(TESTFILES
+      test/main.cpp
+      test/tortoisebot_waypoints_test.cpp
+      )
+  # Add gtest executables
+  ament_add_gtest(${PROJECT_NAME}_test ${TESTFILES})
+  target_link_libraries(${PROJECT_NAME}_test tortoisebot_action_lib )
+
+  install(TARGETS
+        ${PROJECT_NAME}_test
+        # Install the generated test executable file to the path after DESTINATION
+        DESTINATION lib/${PROJECT_NAME})
+  # uncomment to enforce lintners and static code analyzers defined in ament_lint_common package        
+  # ament_lint_auto_find_test_dependencies()
+endif()
 
 ament_package()

@@ -38,8 +38,12 @@ public:
         std::bind(&MyActionServer::handle_cancel, this, _1),
         std::bind(&MyActionServer::handle_accepted, this, _1));
 
+    // publisher_ =
+    //    this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+
     publisher_ =
         this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+
     subscription_ = this->create_subscription<nav_msgs::msg::Odometry>(
         "odom", 10, std::bind(&MyActionServer::odom_callback, this, _1));
 
