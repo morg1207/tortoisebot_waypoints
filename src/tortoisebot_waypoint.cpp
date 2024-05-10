@@ -240,14 +240,20 @@ void MyActionClient::send_goal() {
   RCLCPP_INFO(this->get_logger(), "Send the x-coordinate of the waypoint");
   // Lee el valor ingresado por el usuario y lo almacena en la variable
   // 'valor'
-  std::cin >> goal_point.position.x;
-  RCLCPP_INFO(this->get_logger(), "Send the Y-coordinate of the waypoint");
-  std::cin >> goal_point.position.y; // Solicita al usuario que ingrese un valor
+  // std::cin >> goal_point.position.x;
+  // RCLCPP_INFO(this->get_logger(), "Send the Y-coordinate of the waypoint");
+  // std::cin >> goal_point.position.y; // Solicita al usuario que ingrese un
+  // valor
 
-  RCLCPP_INFO(this->get_logger(), "Send the Z-orientation of the waypoint");
-  std::cin >> goal_point.position.z; // Solicita al usuario que ingrese un valor
+  // RCLCPP_INFO(this->get_logger(), "Send the Z-orientation of the waypoint");
+  // std::cin >> goal_point.position.z; // Solicita al usuario que ingrese un
+  // valor
 
-  RCLCPP_INFO(this->get_logger(), "Sending goal");
+  goal_point.position.x = 0.3;
+  goal_point.position.y = 0.3;
+  goal_point.position.z = 1.57 :
+
+      RCLCPP_INFO(this->get_logger(), "Sending goal");
 
   auto send_goal_options = rclcpp_action::Client<Waypoint>::SendGoalOptions();
 
