@@ -8,7 +8,7 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(tortoisebot_waypoints REQUIRED)
+#find_package(tortoisebot_waypoints REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
@@ -17,70 +17,70 @@ find_package(tf2 REQUIRED)
 
 
 ## ADD LIBRARY
-include_directories(include/tortoisebot_waypoints)
-set(HEADER_FILES include/tortoisebot_waypoints/tortoisebot_waypoint.hpp )
-add_library(tortoisebot_action_lib src/tortoisebot_waypoint.cpp ${HEADER_FILES}) 
+#include_directories(include/tortoisebot_waypoints)
+#set(HEADER_FILES include/tortoisebot_waypoints/tortoisebot_waypoint.hpp )
+#add_library(tortoisebot_action_lib src/tortoisebot_waypoint.cpp ${HEADER_FILES}) 
 
-ament_target_dependencies(tortoisebot_action_lib rclcpp rclcpp_action geometry_msgs nav_msgs tortoisebot_waypoints tf2)
+#ament_target_dependencies(tortoisebot_action_lib rclcpp rclcpp_action geometry_msgs nav_msgs tortoisebot_waypoints tf2)
 
 # this line to export the targets. In your case, it is a library
-ament_export_targets(tortoisebot_action_lib HAS_LIBRARY_TARGET)
+#ament_export_targets(tortoisebot_action_lib HAS_LIBRARY_TARGET)
 
 
-install(
-  DIRECTORY include/tortoisebot_waypoints
-  DESTINATION include
-)
+#install(
+#  DIRECTORY include/tortoisebot_waypoints
+#  DESTINATION include
+#)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/WaypointAction.action"
   DEPENDENCIES geometry_msgs 
 )
 
-add_executable(tortoisebot_action_server_node src/tortoisebot_action_server.cpp)
-ament_target_dependencies(tortoisebot_action_server_node rclcpp rclcpp_action geometry_msgs nav_msgs tortoisebot_waypoints tf2)
+#add_executable(tortoisebot_action_server_node src/tortoisebot_action_server.cpp)
+#ament_target_dependencies(tortoisebot_action_server_node rclcpp rclcpp_action geometry_msgs nav_msgs tortoisebot_waypoints tf2)
 
-add_executable(tortoisebot_action_client_node src/tortoisebot_action_client.cpp)
-ament_target_dependencies(tortoisebot_action_client_node rclcpp rclcpp_action geometry_msgs tortoisebot_waypoints)
+#add_executable(tortoisebot_action_client_node src/tortoisebot_action_client.cpp)
+#ament_target_dependencies(tortoisebot_action_client_node rclcpp rclcpp_action geometry_msgs tortoisebot_waypoints)
 
 
 
 
 ## ADD EXECUTABLE
-add_executable(main src/main.cpp)
-target_link_libraries(main PUBLIC tortoisebot_action_lib)
+#add_executable(main src/main.cpp)
+#target_link_libraries(main PUBLIC tortoisebot_action_lib)
 
-install(TARGETS tortoisebot_action_lib
-  DESTINATION lib/tortoisebot_action_lib)
+#install(TARGETS tortoisebot_action_lib
+#  DESTINATION lib/tortoisebot_action_lib)
 
-install(TARGETS
-   main
-   tortoisebot_action_server_node
-   tortoisebot_action_client_node
-   DESTINATION lib/${PROJECT_NAME}
- )
+#install(TARGETS
+   #main
+   #tortoisebot_action_server_node
+   #tortoisebot_action_client_node
+   #DESTINATION lib/${PROJECT_NAME}
+ #)
 
 
-install(
-  TARGETS tortoisebot_action_lib
-  EXPORT tortoisebot_action_lib
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
-)
+#install(
+  #TARGETS tortoisebot_action_lib
+  #EXPORT tortoisebot_action_lib
+  #LIBRARY DESTINATION lib
+  #ARCHIVE DESTINATION lib
+  #RUNTIME DESTINATION bin
+  #INCLUDES DESTINATION include
+#)
 
 
 #rosidl_target_interfaces(tortoisebot_action_server_node
 #  ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
 # Install launch files.
-install(DIRECTORY
-  launch
-  DESTINATION share/${PROJECT_NAME}/
-)
-
-if(BUILD_TESTING)
+#install(DIRECTORY
+  #launch
+  #DESTINATION share/${PROJECT_NAME}/
+#)
+if(0)
+#if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   find_package(ament_cmake_gtest REQUIRED)
 
