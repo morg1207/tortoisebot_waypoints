@@ -1,5 +1,4 @@
 #include "tortoisebot_waypoint.hpp"
-#include "tortoisebot_waypoints/tortoisebot_waypoint.hpp"
 #include <iostream>
 
 MyActionServer::MyActionServer(const rclcpp::NodeOptions &options)
@@ -251,9 +250,9 @@ void MyActionClient::send_goal() {
 
   goal_point.position.x = 0.3;
   goal_point.position.y = 0.3;
-  goal_point.position.z = 1.57 :
+  goal_point.position.z = 1.57;
 
-      RCLCPP_INFO(this->get_logger(), "Sending goal");
+  RCLCPP_INFO(this->get_logger(), "Sending goal");
 
   auto send_goal_options = rclcpp_action::Client<Waypoint>::SendGoalOptions();
 

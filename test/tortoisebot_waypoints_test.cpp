@@ -1,5 +1,5 @@
 #include "std_msgs/msg/float32.hpp"
-#include "tortoisebot_waypoints/tortoisebot_waypoint.hpp"
+#include "tortoisebot_waypoint.hpp"
 #include "gtest/gtest.h"
 #include <memory>
 
